@@ -80,7 +80,7 @@ module.exports = {
     bg = "F8F4EF",
     name = "countdown",
     frames = 30,
-    cb
+    cb,
   ) {
     // Set some sensible upper / lower bounds
     this.width = this.clamp(width, 150, 500);
@@ -96,7 +96,7 @@ module.exports = {
     this.halfHeight = Number(this.height / 2);
 
     this.encoder = new GIFEncoder(this.width, this.height);
-    registerFont('src/Acronym-Regular.ttf', { family: 'Acronym' })
+    registerFont('src/Acronym-Semibold.ttf', { family: 'Acronym' })
 
     this.canvas = createCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
@@ -218,7 +218,7 @@ module.exports = {
         ctx.fillStyle = this.textColor;
         ctx.textAlign = "center";
 
-        const labels = ["DAY", "HOUR", "MINUTE", "SECOND"];
+        const labels = ["DAYS", "HOURS", "MINUTES", "SECONDS"];
 
         [days, hours, minutes, seconds].forEach((time, colIndex) => {
           const x = 75 + TEXT_CELL_BIG.w * colIndex + GAP * colIndex;
@@ -233,7 +233,7 @@ module.exports = {
           ctx.font = `${smallFontSize}px Acronym`;
           fillTextWithSpacing(
             ctx,
-            labels[colIndex] + (time !== "01" ? "S" : ""),
+            labels[colIndex],
             x,
             smallY,
             0.2 * smallFontSize
