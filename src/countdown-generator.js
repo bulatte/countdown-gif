@@ -1,22 +1,22 @@
 "use strict";
 
 const fs = require("fs");
-const path = require("path");
+// const path = require("path");
 const GIFEncoder = require("gifencoder");
-const { createCanvas } = require("canvas");
+const { registerFont, createCanvas } = require("canvas");
 const moment = require("moment");
 
 const GAP = 10;
 const TEXT_CELL_BIG = { w: 102.5, h: 73 };
 const TEXT_CELL_SMALL = { w: 102.5, h: 17 };
 
-const line = (x1, y1, x2, y2, color, ctx) => {
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.strokeStyle = color;
-  ctx.stroke();
-};
+// const line = (x1, y1, x2, y2, color, ctx) => {
+//   ctx.beginPath();
+//   ctx.moveTo(x1, y1);
+//   ctx.lineTo(x2, y2);
+//   ctx.strokeStyle = color;
+//   ctx.stroke();
+// };
 
 function fillTextWithSpacing(context, text, x, y, spacing) {
   const total_width =
@@ -96,6 +96,8 @@ module.exports = {
     this.halfHeight = Number(this.height / 2);
 
     this.encoder = new GIFEncoder(this.width, this.height);
+    registerFont('src/Acronym-Regular.ttf', { family: 'Acronym' })
+
     this.canvas = createCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
 
@@ -203,11 +205,11 @@ module.exports = {
         ctx.fillStyle = this.bg;
         ctx.fillRect(0, 0, this.width, this.height);
 
-        const hw = this.halfWidth;
-        const w = this.width;
+        // const hw = this.halfWidth;
+        // const w = this.width;
         const h = this.height;
         const hh = this.halfHeight;
-        const c = this.textColor;
+        // const c = this.textColor;
 
         // line(hw, 0, hw, h, c, ctx);
         // line(0, hh, w, hh, c, ctx);
