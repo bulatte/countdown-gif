@@ -6,9 +6,11 @@ const GIFEncoder = require("gifencoder");
 const { registerFont, createCanvas } = require("canvas");
 const moment = require("moment");
 
-const GAP = 10;
-const TEXT_CELL_BIG = { w: 102.5, h: 73 };
-const TEXT_CELL_SMALL = { w: 102.5, h: 17 };
+const ZOOM_FACTOR = 2;
+
+const GAP = 10 * ZOOM_FACTOR;
+const TEXT_CELL_BIG = { w: 102.5 * ZOOM_FACTOR, h: 73 * ZOOM_FACTOR };
+const TEXT_CELL_SMALL = { w: 102.5 * ZOOM_FACTOR, h: 17 * ZOOM_FACTOR };
 
 // const line = (x1, y1, x2, y2, color, ctx) => {
 //   ctx.beginPath();
@@ -83,8 +85,8 @@ module.exports = {
     cb,
   ) {
     // Set some sensible upper / lower bounds
-    this.width = this.clamp(width, 150, 500);
-    this.height = this.clamp(height, 150, 500);
+    this.width = this.clamp(width * ZOOM_FACTOR, 150 * ZOOM_FACTOR, 500 * ZOOM_FACTOR);
+    this.height = this.clamp(height * ZOOM_FACTOR, 150 * ZOOM_FACTOR, 500 * ZOOM_FACTOR);
     this.frames = this.clamp(frames, 1, 90);
 
     this.bg = "#" + bg;
@@ -96,7 +98,8 @@ module.exports = {
     this.halfHeight = Number(this.height / 2);
 
     this.encoder = new GIFEncoder(this.width, this.height);
-    registerFont('src/Acronym-Semibold.ttf', { family: 'Acronym' })
+    registerFont('src/Acronym-Regular.ttf', { family: 'Acronym-Regular' })
+    registerFont('src/Acronym-Semibold.ttf', { family: 'Acronym-Semibold' })
 
     this.canvas = createCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
@@ -167,8 +170,8 @@ module.exports = {
     });
 
     // estimate the font size based on the provided width
-    let fontSize = "60px";
-    let fontFamily = "Acronym"; // monospace works slightly better
+    let fontSize = `${60 * ZOOM_FACTOR}px`;
+    let fontFamily = "Acronym-Regular";
 
     // set the font style
     ctx.font = [fontSize, fontFamily].join(" ");
@@ -221,16 +224,16 @@ module.exports = {
         const labels = ["DAYS", "HOURS", "MINUTES", "SECONDS"];
 
         [days, hours, minutes, seconds].forEach((time, colIndex) => {
-          const x = 75 + TEXT_CELL_BIG.w * colIndex + GAP * colIndex;
+          const x = (75 * ZOOM_FACTOR) + TEXT_CELL_BIG.w * colIndex + GAP * colIndex;
           const bigY = hh - GAP;
           const colH = TEXT_CELL_BIG.h + GAP + TEXT_CELL_SMALL.h;
           const smallY = (h - colH) / 2 + colH - TEXT_CELL_SMALL.h;
 
-          ctx.font = "60px Acronym";
+          ctx.font = `${60 * ZOOM_FACTOR}px Acronym-Regular`;
           ctx.fillText(time, x, bigY, TEXT_CELL_BIG.w);
 
-          const smallFontSize = 12;
-          ctx.font = `${smallFontSize}px Acronym`;
+          const smallFontSize = 12 * ZOOM_FACTOR;
+          ctx.font = `${smallFontSize}px Acronym-Semibold`;
           fillTextWithSpacing(
             ctx,
             labels[colIndex],
