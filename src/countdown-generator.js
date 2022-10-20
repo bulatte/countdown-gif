@@ -81,7 +81,7 @@ module.exports = {
     color = "2B2B2C",
     bg = "F8F4EF",
     name = "countdown",
-    frames = 30,
+    frames = 15,
     cb,
   ) {
     // Set some sensible upper / lower bounds
